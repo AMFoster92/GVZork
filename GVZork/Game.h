@@ -15,7 +15,7 @@
 
 class Game {
 private:
-	std::map < std::string, void(Game::*)(...) > commands;
+	std::map < std::string, void(Game::*)(std::vector<std::string>) > commands;
 	std::vector<Location> locations;
 	Player player;
 	int elfCalories;
@@ -26,7 +26,7 @@ private:
 public:
 	Game();
 	void CreateWorld();
-	std::map<std::string, void(Game::*)(...)> SetupCommands();
+	std::map<std::string, void(Game::*)(std::vector<std::string>)> SetupCommands();
 	Location RandomLocation();
 	void play();
 	void showHelp();

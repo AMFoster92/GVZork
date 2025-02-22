@@ -9,9 +9,9 @@ void Game::CreateWorld()
 {
 }
 
-std::map<std::string, void(Game::*)(...)> Game::SetupCommands()
+std::map<std::string, void(Game::*)(std::vector<std::string>)> Game::SetupCommands()
 {
-	std::map<std::string, void(Game::*)(...)> commands;
+	std::map<std::string, void(Game::*)(std::vector<std::string>)> commands;
 
 	commands["help"] = showHelp;
 	commands["talk"] = talk;
