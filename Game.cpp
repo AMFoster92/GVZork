@@ -550,28 +550,41 @@ void Game::quit(std::vector<std::string> target = {})
 */
 void Game::portal(std::vector<std::string> target)
 {
+	// Player items
 	std::vector<Item> playerInv = this->player.getPlayerItems();
+
+	// Flag to indicate if player has picked up the portal gun
 	bool hasPortalGun = std::any_of(playerInv.begin(), playerInv.end(), 
 		[&](Item item) {return strToLower(item.getName()) == "portal gun";});
+
+	// Initialize location variable with empty location
 	Location* location = new Location();
 
+	// Has the player picked up the portal gun?
 	if (hasPortalGun)
 	{
+		// Try to find the target location, will remain empty location if not found
 		location = &(*std::find_if(this->locations.begin(), this->locations.end(),
 			[&](Location loc) {return strToLower(loc.getName()) == strToLower(target[0]);}));
 
+		// Has the player visited the location before?
 		if (location->getVisited())
 		{
+			// Move the player to the new location
 			this->player.setPlayerLoc(*location);
 			std::cout << "\nYou open a portal and travel to " << location->getName() << "." << std::endl;
 		}
+		// They haven't been there
 		else
 		{
+			// Throw an error and print a message saying so
 			throw Errors<std::string>::NoMatch("visited location");
 		}
 	}
+	// The player has not picked up the portal gun
 	else
 	{
+		// Throw an error and print a message saying so
 		throw Errors<std::string>::InvalidCommand();
 	}
 }
@@ -584,16 +597,21 @@ void Game::portal(std::vector<std::string> target)
 */
 void Game::game(std::vector<std::string> target)
 {
+	// Player's inventory
 	std::vector<Item> playerInv = this->player.getPlayerItems();
+	// Flag to indicate the Nintendo 3DS has been picked up
 	bool has3DS = std::any_of(playerInv.begin(), playerInv.end(),
 		[&](Item item) {return strToLower(item.getName()) == "nintendo 3ds"; });
+	// Flag to indicate the game has been picked up
 	bool hasCasinoGame = std::any_of(playerInv.begin(), playerInv.end(),
 		[&](Item item) {return strToLower(item.getName()) == "golden nugget casino ds"; });
+	// Mini game variables
 	int playerScore = 0;
 	int houseScore = 0;
-	std::string hitStay = "";
+	std::string hitStay = "";	// For getting player input
 	bool playAgain = true;
 	
+	// Have the 3DS and game been picked up?
 	if (has3DS and hasCasinoGame)
 	{
 		std::cout << "\nNow loading 21..." << std::endl;
@@ -604,44 +622,62 @@ void Game::game(std::vector<std::string> target)
 		// Get a number between 13-21 for the house score
 		houseScore = randomNumber(8) + 13;
 
+		// While the player wants to play
 		while(playAgain)
 		{
+			// Is the player score still below the max score?
 			if(playerScore < 21)
 			{
+				// Print current player score
 				std::cout << "\nYour Score: " << playerScore << "\tHouse Score: ?" << std::endl;
+
+				// Get player input
 				std::cout << "Hit or Stay?" << std::endl;
 				std::getline(std::cin, hitStay);
 			}
 
+			// Did the player want to hit and are they under the max score?
 			if (strToLower(hitStay) == "hit" and playerScore < 21)
 			{
 				// Get a number 1 - 10 and add it to player's current score
 				playerScore += randomNumber(9) + 1;
 			}
+			// Did they want to stay or is their score equal to or higher 
+			// than the max score?
 			else if (strToLower(hitStay) == "stay" or playerScore >= 21)
 			{
+				// Print player score and house score
 				std::cout << "\nYour Score: " << playerScore << "\tHouse Score: " << houseScore << std::endl;
+
+				// Is the player score larger score than the house score and is it in range?
 				if (playerScore > houseScore and playerScore < 22)
 				{
 					std::cout << "\nYou Won!" << std::endl;
 				}
+				// Are the scores equal?
 				else if (playerScore == houseScore)
 				{
 					std::cout << "\nIt's a tie!" << std::endl;
 				}
+				// The player lost
 				else
 				{
+					// Print a message saying so
 					std::cout << "\nOh no! You lost!" << std::endl;
 				}
 
+				// Prompt the player to play again
 				std::cout << "Play again? (Y/N)" << std::endl;
 				std::getline(std::cin, hitStay);
 
+				// Does the player not want to play another round?
 				if (strToLower(hitStay) == "n")
 				{
+					// Set the play again flag to show that they do not
 					playAgain = false;
 					std::cout << "\nGoing back to the real world..." << std::endl;
 				}
+				// Does the player want to play another round?
 				else if (strToLower(hitStay) == "y")
 				{
 					std::cout << "\nStarting a new game..." << std::endl;
@@ -652,19 +688,25 @@ void Game::game(std::vector<std::string> target)
 					// Get a number between 13-21 for the house score
 					houseScore = randomNumber(8) + 13;
 				}
+				// Catches unexpected input without throwing an error and breaking 
+				// the mini game
 				else
 				{
 					std::cout << "What was that you wanted to do?" << std::endl;
 				}
 			}
+			// Catches unexpected input without throwing an error and breaking
+			// the mini game
 			else
 			{
 				std::cout << "What was that you wanted to do?" << std::endl;
 			}
 		}
 	}
+	// Missing at least one of the items
 	else
 	{
+		// Throw an error message
 		throw Errors<std::string>::InvalidCommand();
 	}
 }
