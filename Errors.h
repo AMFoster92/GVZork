@@ -46,6 +46,13 @@ public:
 	private:
 	};
 
+	class InvalidCommand
+	{
+	public:
+		InvalidCommand();
+	private:
+	};
+
 private:
 	std::string invStr;
 	T invVal;
@@ -84,6 +91,11 @@ Errors<T>::Encumbered::Encumbered()
 	std::cout << "You are carrying too much to travel." << std::endl;
 }
 
+template <class T>
+Errors<T>::InvalidCommand::InvalidCommand()
+{
+	std::cout << "You can't do that! Have you lost your mind?" << std::endl;
+}
 #endif
 
 

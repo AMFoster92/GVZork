@@ -1,3 +1,7 @@
+/*
+	Declaration file for the Game Class
+*/
+
 #ifndef GAME_H
 #define GAME_H
 #include <map>
@@ -8,7 +12,7 @@
 #include <chrono>
 #include <algorithm>
 #include <iomanip>
-
+#include <unordered_map>
 
 #include "GameObject.h"
 #include "Item.h"
@@ -16,7 +20,16 @@
 #include "NPC.h"
 #include "Player.h"
 
-using namespace std::chrono;
+// Constants defined in WorldObjects.cpp
+extern const std::vector<Item> GAME_ITEMS;
+extern const std::vector<Location> GAME_LOCATIONS;
+extern const std::map<std::string, 
+	std::map<std::string, std::string>> LOC_NEIGHBORS;
+extern const std::vector<NPC> GAME_NPC;
+extern const std::unordered_map<std::string, 
+	std::map<std::string, std::string>> COMMAND_HELP;
+extern const std::string START_MESSAGE;
+extern const std::map<std::string, std::vector<std::string>> NPC_MESSAGES;
 
 class Game {
 private:
@@ -27,11 +40,20 @@ private:
 	bool playGame;
 
 public:
+	// Default constructor
 	Game();
+
+	// Helper functions
 	void createWorld();
 	std::map<std::string, void(Game::*)(std::vector<std::string>)> setupCommands();
-	Location randomLocation();
-	int randomNumber(int rngMax);
+	Location* randomLocation();
+	int randomNumber(const int rngMax);
+	std::string getTimeString();
+	std::string strToLower(std::string st);
+	std::vector<std::string> tokenizeString(const std::string raw, 
+										    const char delim);
+
+	// Command functions
 	void play(std::vector<std::string> target);
 	void showHelp(std::vector<std::string> target);
 	void talk(std::vector<std::string> target);
@@ -42,22 +64,12 @@ public:
 	void showItems(std::vector<std::string> target);
 	void look(std::vector<std::string> target);
 	void quit(std::vector<std::string> target);
-	std::string getTimeString();
+	void portal(std::vector<std::string> target);
+	void game(std::vector<std::string> target);
 
-
+	// Getters
 	int getElfCalories() const;
 	bool getPlayGame() const;
 };
-
-const std::vector<Item> gameItems = { Item("testItem", 1, "testItem desc", 0.1f) };
-const std::vector<Location> gameLocations = { Location("testLoc", "testLoc desc"), \
-											  Location("testLoc2", "testLoc2 desc")};
-const std::map<std::string, std::map<std::string, std::string>> locNeighbors = { {"testLoc", {"north", "testLoc2"}}, \
-																			  {"testLoc2", { "south", "testLoc"}}};
-const std::vector<NPC> gameNPC = { NPC("testNPC", "testNPC desc") };
-
-// {Command, {Description, Syntax}}
-const std::map<std::string, std::map<std::string, std::string>> commandHelp = { {"Show Help",{"Shows the help center message", "help"}},
-																				{"Talk",{"Talk to an NPC in the current location. ", "talk [NPC Name]"}} };
 
 #endif
