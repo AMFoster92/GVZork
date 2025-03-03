@@ -1,3 +1,10 @@
+/*
+	Critical and non-critical error file
+	Should eventually be split into separate files.
+	Created as a template class to provide a way to
+	send error data back of any type if desired.
+*/
+
 #ifndef ERRORS_H
 #define ERRORS_H
 

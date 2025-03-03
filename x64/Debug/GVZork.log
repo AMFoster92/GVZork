@@ -1,2 +1,17 @@
-﻿  Item.cpp
+﻿  Errors.cpp
+  Game.cpp
+C:\Users\Aaron\source\repos\GVZork\GVZork\Game.cpp(136,75): warning C4244: 'argument': conversion from '_Rep' to 'unsigned int', possible loss of data
+C:\Users\Aaron\source\repos\GVZork\GVZork\Game.cpp(136,75): warning C4244:         with
+C:\Users\Aaron\source\repos\GVZork\GVZork\Game.cpp(136,75): warning C4244:         [
+C:\Users\Aaron\source\repos\GVZork\GVZork\Game.cpp(136,75): warning C4244:             _Rep=std::chrono::system_clock::rep
+C:\Users\Aaron\source\repos\GVZork\GVZork\Game.cpp(136,75): warning C4244:         ]
+C:\Users\Aaron\source\repos\GVZork\GVZork\Game.cpp(732,15): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+C:\Users\Aaron\source\repos\GVZork\GVZork\Game.cpp(748,28): warning C4309: '=': truncation of constant value
+  Item.cpp
+  Location.cpp
+  NPC.cpp
+  Player.cpp
+  Source.cpp
+  WorldObjects.cpp
+  Generating Code...
   GVZork.vcxproj -> C:\Users\Aaron\source\repos\GVZork\x64\Debug\GVZork.exe
