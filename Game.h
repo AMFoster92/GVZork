@@ -14,7 +14,6 @@
 #include <iomanip>
 #include <unordered_map>
 
-#include "GameObject.h"
 #include "Item.h"
 #include "Location.h"
 #include "NPC.h"
